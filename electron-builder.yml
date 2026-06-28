@@ -14,6 +14,7 @@ nsis:
   perMachine: false
   allowToChangeInstallationDirectory: true
 mac:
+  identity: null
   target:
     - dmg
   category: public.app-category.productivity

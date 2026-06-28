@@ -3,16 +3,11 @@
 
 
 # Electron desktop app
-electron-app/node_modules/
-electron-app/dist/
-electron-app/dist-electron/
-electron-app/release/
-electron-app/out/
-electron-app/.vite/
-electron-app/coverage/
-electron-app/output/
-electron-app/tmp/
-electron-app/test-output/
+dist/
+release/
+out/
+tmp/
+test-output/
 node_modules/
 Hälsodeklarationer.docx
 Hälsodeklarationer.md

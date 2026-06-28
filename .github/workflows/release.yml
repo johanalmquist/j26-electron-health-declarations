@@ -1,0 +1,44 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+# Prevent concurrent version bumps racing each other.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Version & publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so changesets can diff against the base branch.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # On every push to main:
+      #   - If pending changesets exist  → opens/updates the "Version Packages" PR.
+      #   - If no pending changesets     → runs `changeset tag`, pushes the version
+      #     tag, and creates a GitHub Release. This triggers the build workflow.
+      - uses: changesets/action@v1
+        with:
+          version: npm run version
+          publish: npm run changeset:tag
+          title: "chore: version packages"
+          commit: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
