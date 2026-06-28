@@ -1,6 +1,6 @@
 {
   "name": "js26-health-declarations-desktop",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "description": "Desktop app for generating hälsodeklarationer from Scoutnet CSV exports",
   "main": "dist/main/index.cjs",
