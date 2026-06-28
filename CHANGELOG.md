@@ -1,5 +1,11 @@
 # js26-health-declarations-desktop
 
+## 0.2.2
+
+### Patch Changes
+
+- 553da7d: Förhindra att electron-builder försöker publicera till GitHub automatiskt i CI-miljöer.
+
 ## 0.2.1
 
 ### Patch Changes
