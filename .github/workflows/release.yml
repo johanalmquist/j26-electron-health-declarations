@@ -10,17 +10,25 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # ── Step 1 ──────────────────────────────────────────────────────────────────
+  # On every push to main:
+  #   - If pending changesets exist  → opens/updates the "Version Packages" PR.
+  #   - If no pending changesets     → runs the publish script, which creates
+  #     the v{version} tag and outputs "New tag: name@version". changesets/action
+  #     pushes the tag, creates the GitHub Release, and sets published=true.
+  #     The build jobs below then run.
   release:
     name: Version & publish
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
 
     steps:
       - uses: actions/checkout@v4
         with:
-          # Full history so changesets can diff against the base branch.
           fetch-depth: 0
 
       - uses: actions/setup-node@v4
@@ -30,11 +38,8 @@ jobs:
 
       - run: npm ci
 
-      # On every push to main:
-      #   - If pending changesets exist  → opens/updates the "Version Packages" PR.
-      #   - If no pending changesets     → runs `changeset tag`, pushes the version
-      #     tag, and creates a GitHub Release. This triggers the build workflow.
-      - uses: changesets/action@v1
+      - id: changesets
+        uses: changesets/action@v1
         with:
           version: npm run version
           publish: npm run changeset:tag
@@ -42,3 +47,71 @@ jobs:
           commit: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ── Step 2a ─────────────────────────────────────────────────────────────────
+  # Runs only when a new version was just published (i.e. the Version Packages
+  # PR was merged). Uses the same GITHUB_TOKEN — no PAT required because these
+  # jobs run inside the same workflow, not triggered by a cross-workflow event.
+  build-mac:
+    name: Build macOS (DMG)
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Build unsigned. Without an Apple Developer certificate the DMG ships
+      # without a notarization seal; users must right-click → Open on first launch.
+      - name: Build macOS DMG
+        run: npm run dist:mac
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+
+      - name: Upload DMG to release
+        run: |
+          VERSION="v$(node -p "require('./package.json').version")"
+          gh release upload "$VERSION" release/*.dmg --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ── Step 2b ─────────────────────────────────────────────────────────────────
+  build-windows:
+    name: Build Windows (NSIS)
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Build unsigned. Windows SmartScreen will show an "Unknown publisher"
+      # warning on first run; users click "More info" → "Run anyway".
+      - name: Build Windows installer
+        run: npm run dist:win
+
+      - name: Upload installer to release
+        shell: bash
+        run: |
+          VERSION="v$(node -p "require('./package.json').version")"
+          gh release upload "$VERSION" release/*.exe --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
