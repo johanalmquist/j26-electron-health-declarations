@@ -41,18 +41,30 @@ Download the latest release from the [GitHub Releases page](https://github.com/j
 3. Eject the DMG.
 
 > [!WARNING]
-> Because this app is not signed with an Apple Developer certificate, macOS will block it on first launch. Follow the steps below to open it anyway.
+> This app is not signed with an Apple Developer certificate. macOS will block it on first launch and show an error saying the developer cannot be verified. The steps below remove that block — you only need to do this once.
 
-**First launch — bypassing Gatekeeper:**
+**Option A — via Terminal (most reliable, works on all macOS versions)**
 
-1. In Finder, go to **Applications** and locate **Halsodeklarationer**.
-2. **Right-click** (or Control-click) the app icon and choose **Open** from the menu.
-3. A dialog appears saying Apple cannot verify the developer. Click **Open**.
+Open Terminal and run:
+
+```bash
+xattr -d com.apple.quarantine /Applications/Halsodeklarationer.app
+```
+
+Then double-click the app normally. It will open without any warning.
+
+**Option B — via System Settings**
+
+1. **First, attempt to open the app** — double-click it in Applications. You will get an error message. This is expected; it registers the block so macOS can show you the override option.
+2. Open **Systeminställningar → Integritet och säkerhet** (System Settings → Privacy & Security).
+3. In the **Säkerhet** (Security) section, make sure "Tillåt appar från" is set to at least **"App Store och kända utvecklare"**.
+4. Scroll down — you should now see a notice about Halsodeklarationer being blocked, with an **"Öppna ändå"** (Open Anyway) button. Click it.
+5. Confirm by clicking **Öppna** in the dialog that follows.
 
 The app is now trusted on your Mac and opens normally from that point on.
 
 > [!TIP]
-> If the **Open** button does not appear in the dialog, go to **System Settings → Privacy & Security**, scroll down to the blocked app notice, and click **Open Anyway**.
+> If you do not see the "Öppna ändå" button in System Settings, go back and try Option A (the Terminal command). It works on all macOS versions regardless of security settings.
 
 ### Windows
 
