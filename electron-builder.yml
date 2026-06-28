@@ -1,0 +1,19 @@
+appId: se.jakobsbergsscoutkar.halsodeklarationer
+productName: Halsodeklarationer
+files:
+  - dist/**
+  - index.html
+asar: true
+directories:
+  output: release
+win:
+  target:
+    - nsis
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+mac:
+  target:
+    - dmg
+  category: public.app-category.productivity

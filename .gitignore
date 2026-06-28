@@ -1,0 +1,24 @@
+~$*.docx
+.DS_Store
+
+
+# Electron desktop app
+electron-app/node_modules/
+electron-app/dist/
+electron-app/dist-electron/
+electron-app/release/
+electron-app/out/
+electron-app/.vite/
+electron-app/coverage/
+electron-app/output/
+electron-app/tmp/
+electron-app/test-output/
+node_modules/
+Hälsodeklarationer.docx
+Hälsodeklarationer.md
+Jakobsbergs Scoutkar on Jamboree26 - Karens interna anmalan, Anmalan - deltakere.csv
+Jamboree26 - Namnlista med deltagare.csv
+warnings-to-solve.txt
+2026-05-24-health-declaration-generator-design.md
+out/
+tmp/

@@ -1,0 +1,31 @@
+{
+  "name": "js26-health-declarations-desktop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Desktop app for generating hälsodeklarationer from Scoutnet CSV exports",
+  "main": "dist/main/index.cjs",
+  "type": "module",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "tsc --noEmit && electron-vite build",
+    "test": "vitest run",
+    "dist": "npm run build && electron-builder",
+    "dist:mac": "npm run build && electron-builder --mac dmg",
+    "dist:win": "npm run build && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "@electron-toolkit/preload": "latest",
+    "csv-parse": "latest",
+    "docx": "latest"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "@types/node": "latest",
+    "electron": "31.7.7",
+    "electron-builder": "latest",
+    "fast-xml-parser": "latest",
+    "jszip": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  }
+}
