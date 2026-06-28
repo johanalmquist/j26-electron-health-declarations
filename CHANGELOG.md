@@ -1,5 +1,11 @@
 # js26-health-declarations-desktop
 
+## 0.2.1
+
+### Patch Changes
+
+- 0be367a: Lägg till electron-vite som devDependency och förbättra CI/CD-konfiguration.
+
 ## 0.2.0
 
 ### Minor Changes
