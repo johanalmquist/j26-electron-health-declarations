@@ -30,6 +30,37 @@ Each participant page follows a fixed section layout:
 
 Fields marked as always-visible (name, ICE contacts, swim ability, consents, etc.) show a `—` placeholder when empty. All other fields are omitted when blank so that printed pages stay clean.
 
+## Installation
+
+Download the latest release from the [GitHub Releases page](https://github.com/johanalmquist/j26-electron-health-declarations/releases).
+
+### macOS
+
+1. Download **`Halsodeklarationer-{version}-arm64.dmg`**.
+2. Open the DMG file and drag **Halsodeklarationer** into your Applications folder.
+3. Eject the DMG.
+
+> [!WARNING]
+> Because this app is not signed with an Apple Developer certificate, macOS will block it on first launch. Follow the steps below to open it anyway.
+
+**First launch — bypassing Gatekeeper:**
+
+1. In Finder, go to **Applications** and locate **Halsodeklarationer**.
+2. **Right-click** (or Control-click) the app icon and choose **Open** from the menu.
+3. A dialog appears saying Apple cannot verify the developer. Click **Open**.
+
+The app is now trusted on your Mac and opens normally from that point on.
+
+> [!TIP]
+> If the **Open** button does not appear in the dialog, go to **System Settings → Privacy & Security**, scroll down to the blocked app notice, and click **Open Anyway**.
+
+### Windows
+
+1. Download **`Halsodeklarationer.Setup.{version}.exe`** and run it.
+2. If Windows SmartScreen shows *"Windows protected your PC"*, click **More info** → **Run anyway**.
+3. Follow the installer prompts.
+
+
 ## Getting started
 
 **Prerequisites:** Node.js 20.19+ or 22.12+, npm.
