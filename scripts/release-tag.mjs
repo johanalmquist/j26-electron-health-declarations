@@ -10,12 +10,14 @@ import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 
 const { name, version } = JSON.parse(readFileSync("package.json", "utf8"));
-const tag = `${name}@${version}`;
 
+// changesets/action parses stdout for "New tag: name@version",
+// extracts the version, and then does `git push origin v{version}`.
+// The tag must therefore be named v{version} so the push succeeds.
 try {
-  execSync(`git tag ${tag}`, { stdio: "inherit" });
+  execSync(`git tag v${version}`, { stdio: "inherit" });
 } catch {
   // Tag already exists — proceed so the release is still created.
 }
 
-process.stdout.write(`New tag: ${tag}\n`);
+process.stdout.write(`New tag: ${name}@${version}\n`);
