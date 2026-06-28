@@ -13,7 +13,7 @@
     "dist:mac": "npm run build && electron-builder --mac dmg",
     "dist:win": "npm run build && electron-builder --win nsis",
     "version": "changeset version",
-    "changeset:tag": "changeset tag"
+    "changeset:tag": "node scripts/release-tag.mjs"
   },
   "dependencies": {
     "@electron-toolkit/preload": "latest",
