@@ -25,6 +25,7 @@
     "@types/node": "latest",
     "electron": "31.7.7",
     "electron-builder": "latest",
+    "electron-vite": "^5.0.0",
     "fast-xml-parser": "latest",
     "jszip": "latest",
     "typescript": "latest",
